@@ -1,0 +1,37 @@
+﻿@using System.Web.Mvc;
+@using Telerik.Sitefinity.Frontend.Mvc.Helpers;
+@using Telerik.Sitefinity.Modules.Pages;
+@using Telerik.Sitefinity.UI.MVC;
+@using Telerik.Sitefinity.Services;
+
+<!DOCTYPE html>
+<html @Html.RenderLangAttribute() @Html.RenderDirAttribute()>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+
+    @Html.Section("head")
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title></title>
+</head>
+
+<body>
+    @Html.Section("top")
+
+    <div class="container-fluid">
+        @Html.SfPlaceHolder("TopMenu")
+    </div>
+    <div class="container-fluid">
+        @Html.SfPlaceHolder("Main")
+    </div>
+    <div class="container-fluid">
+        @Html.SfPlaceHolder("Footer")
+    </div>
+
+    @Html.Section("jquery")
+    @Html.Section("frameworks")
+    @Html.Section("plugins")
+    @Html.Section("bottom")
+</body>
+</html>
