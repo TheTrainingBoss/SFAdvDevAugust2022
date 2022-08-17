@@ -20,6 +20,7 @@ using Telerik.Sitefinity.Modules.News;
 using Telerik.Sitefinity.Mvc;
 using Telerik.Sitefinity.News.Model;
 using Telerik.Sitefinity.Personalization;
+using Telerik.Sitefinity.Services;
 using Telerik.Sitefinity.Workflow;
 
 namespace SFAdvDevAugust2022.Mvc.Controllers
@@ -37,12 +38,14 @@ namespace SFAdvDevAugust2022.Mvc.Controllers
 			model.MyDate = this.MyDate;
 			model.Number = this.Number;
 
-			LibrariesManager lbmanager = LibrariesManager.GetManager();
-			var image = lbmanager.GetImage(Guid.Parse(this.Images.ItemIdsOrdered[0]));
+			//LibrariesManager lbmanager = LibrariesManager.GetManager();
+			//var image = lbmanager.GetImage(Guid.Parse(this.Images.ItemIdsOrdered[0]));
 			
 			
-			model.Images = image.MediaUrl;
+			//model.Images = image.MediaUrl;
 			model.Flag = this.Flag;
+
+			EventHub.Raise(new TroyEvent { MyCustomMessage = "Troy was sending a message" });
                 
 			return View(model);
 		}
