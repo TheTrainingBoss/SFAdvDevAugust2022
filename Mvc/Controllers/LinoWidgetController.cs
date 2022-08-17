@@ -8,11 +8,17 @@ using Progress.Sitefinity.Renderer.Designers.Attributes;
 using Progress.Sitefinity.Renderer.Entities.Content;
 using SFAdvDevAugust2022.Mvc.Models;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using Telerik.Sitefinity;
 using Telerik.Sitefinity.Modules.Libraries;
+using Telerik.Sitefinity.Modules.News;
 using Telerik.Sitefinity.Mvc;
+using Telerik.Sitefinity.News.Model;
 using Telerik.Sitefinity.Personalization;
+using Telerik.Sitefinity.Workflow;
 
 namespace SFAdvDevAugust2022.Mvc.Controllers
 {
@@ -37,6 +43,42 @@ namespace SFAdvDevAugust2022.Mvc.Controllers
                 
 			return View(model);
 		}
+
+		public ActionResult CreatePressRelease()
+		{
+            NewsManager nm = NewsManager.GetManager();
+            NewsItem item = nm.CreateNewsItem();
+			item.Title = "News Item 1";
+			item.Content = "<h2>Test content here</h2>";
+			item.DateCreated = DateTime.UtcNow;
+			item.PublicationDate = DateTime.UtcNow;
+			item.LastModified = DateTime.UtcNow;
+			item.UrlName = Regex.Replace(item.Title, @"[^\w\-\!\$\'\(\)\=\@\d_]+", "-");
+            nm.SaveChanges();
+
+			var bag = new Dictionary<string, string>();
+			bag.Add("ContentType", typeof(NewsItem).FullName);
+			WorkflowManager.MessageWorkflow(item.Id, typeof(NewsItem), null, "Publish", false, bag);
+
+
+			return View();
+        }
+        
+        public ActionResult CreateWithFluent()
+        {
+            var myGuid = Guid.NewGuid();
+            App.WorkWith().NewsItem().CreateNew(myGuid).Do(n =>
+            {
+                n.Title = "News Item 2";
+                n.Content = "<h2>Test content here</h2>";
+                n.DateCreated = DateTime.UtcNow;
+                n.PublicationDate = DateTime.UtcNow;
+                n.LastModified = DateTime.UtcNow;
+                n.UrlName = Regex.Replace(n.Title, @"[^\w\-\!\$\'\(\)\=\@\d_]+", "-");
+            }).SaveChanges();
+            return View();
+        }
+    
 		
         protected override void HandleUnknownAction(string actionName)
         {
