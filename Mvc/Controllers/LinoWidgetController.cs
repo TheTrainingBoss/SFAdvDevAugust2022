@@ -6,6 +6,7 @@
 
 using Progress.Sitefinity.Renderer.Designers.Attributes;
 using Progress.Sitefinity.Renderer.Entities.Content;
+using SFAdvDevAugust2022.Localization;
 using SFAdvDevAugust2022.Mvc.Models;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using Telerik.Sitefinity;
+using Telerik.Sitefinity.Frontend.Mvc.Infrastructure.Controllers.Attributes;
 using Telerik.Sitefinity.Modules.Libraries;
 using Telerik.Sitefinity.Modules.News;
 using Telerik.Sitefinity.Mvc;
@@ -22,6 +24,7 @@ using Telerik.Sitefinity.Workflow;
 
 namespace SFAdvDevAugust2022.Mvc.Controllers
 {
+	[Localization(typeof(MyWidgetResources))]
 	[ControllerToolboxItem(Name = "LinoWidget", Title = "Lino Widget", SectionName = "SFAdvAug2022")]
 	public class LinoWidgetController : Controller, IPersonalizable
 	{
