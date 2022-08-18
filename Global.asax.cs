@@ -1,4 +1,5 @@
-﻿using SFAdvDevAugust2022.Mvc.Models;
+﻿using SFAdvDevAugust2022.Configurations;
+using SFAdvDevAugust2022.Mvc.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,6 +8,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
 using Telerik.Sitefinity.Abstractions;
+using Telerik.Sitefinity.Configuration;
 using Telerik.Sitefinity.Modules.Libraries.Web.Events;
 using Telerik.Sitefinity.Services;
 
@@ -26,6 +28,7 @@ namespace SFAdvDevAugust2022
             {
                 EventHub.Subscribe<IMediaContentDownloadedEvent>(evt => MyMediaEvent(evt));
                 EventHub.Subscribe<ITroyEvent>(evt => TroyRaizedEvent(evt));
+                Config.RegisterSection<ArunConfig>();
             }
         }
 
