@@ -15,6 +15,7 @@ using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using Telerik.Sitefinity;
 using Telerik.Sitefinity.Frontend.Mvc.Infrastructure.Controllers.Attributes;
+using Telerik.Sitefinity.HealthMonitoring;
 using Telerik.Sitefinity.Modules.Libraries;
 using Telerik.Sitefinity.Modules.News;
 using Telerik.Sitefinity.Mvc;
@@ -32,22 +33,28 @@ namespace SFAdvDevAugust2022.Mvc.Controllers
 		// GET: LinoWidget
 		public ActionResult Index()
 		{
-			var model = new LinoWidgetModel();
-			model.Message = this.Message;
-			model.Enum = this.Enum;
-			model.MyDate = this.MyDate;
-			model.Number = this.Number;
+			using (new MethodPerformanceRegion("LinoWidget Diagnostics"))
+			{
+				var model = new LinoWidgetModel();
+				model.Message = this.Message;
+				model.Enum = this.Enum;
+				model.MyDate = this.MyDate;
+				model.Number = this.Number;
 
-			//LibrariesManager lbmanager = LibrariesManager.GetManager();
-			//var image = lbmanager.GetImage(Guid.Parse(this.Images.ItemIdsOrdered[0]));
-			
-			
-			//model.Images = image.MediaUrl;
-			model.Flag = this.Flag;
+				LibrariesManager lbmanager = LibrariesManager.GetManager();
+				if (this.Images != null)
+				{
+					var image = lbmanager.GetImage(Guid.Parse(this.Images.ItemIdsOrdered[0]));
+					model.Images = image.MediaUrl;
+				}
 
-			EventHub.Raise(new TroyEvent { MyCustomMessage = "Troy was sending a message" });
-                
-			return View(model);
+
+				model.Flag = this.Flag;
+
+				EventHub.Raise(new TroyEvent { MyCustomMessage = "Troy was sending a message" });
+				return View(model);
+			}    
+			
 		}
 
 		public ActionResult CreatePressRelease()
@@ -91,11 +98,8 @@ namespace SFAdvDevAugust2022.Mvc.Controllers
             this.ActionInvoker.InvokeAction(this.ControllerContext, "Index");
         }
 
-        [Category("Lino")]
-		public string Message { get; set; }
-		[Category("Lino")]
+        public string Message { get; set; }
 		public bool Flag { get; set; }
-		[Category("Lino")]
 		public Enumeration Enum { get; set; }
         [Browsable(false)]
 		public int Number { get; set; }
